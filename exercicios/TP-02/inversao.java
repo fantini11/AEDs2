@@ -2,8 +2,7 @@ class inversao{
     public static String inverte(String palavra, int tam){
         String invertido = ""; 
         for(int i = tam; i >= 0;i--){
-            char c = (char)palavra.charAt(i);
-            invertido += c;
+            invertido += (char)palavra.charAt(i);
         }
         return invertido;
     }
