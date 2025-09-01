@@ -1,8 +1,8 @@
 class inversao{
-    public static String inverte(String palavra, int tam - 1){
-        String invertido = "";
+    public static String inverte(String palavra, int tam){
+        String invertido = ""; 
         for(int i = tam; i >= 0;i--){
-            char c = (char)palavra.charAt(i)
+            char c = (char)palavra.charAt(i);
             invertido += c;
         }
         return invertido;
@@ -12,7 +12,7 @@ class inversao{
         String palavra = MyIO.readLine();
 
         while(!palavra.equals("FIM")){
-        int tam = palavra.length();
+        int tam = palavra.length() - 1;
 
         MyIO.println(inverte(palavra, tam));
 
