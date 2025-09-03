@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
 
     bool vogais(char string[]){
         bool ehVogal = false;
@@ -9,7 +10,7 @@
         int aux = 0;
 
         for(int i = 0; i < tam; i++){
-            if(tolower(string[i]) == "a" || string[i] == "e" || string[i] == "i" || string[i] == "o" || string[i] == "u"){
+            if(tolower(string[i]) == 'a' || tolower(string[i]) == 'e' || tolower(string[i]) == 'i' || tolower(string[i]) == 'o' || tolower(string[i]) == 'u'){
             aux ++;
             }
         }
@@ -25,7 +26,7 @@
         int aux = 0;
 
         for(int i = 0; i < tam; i++){
-            if(tolower(string[i]) != "a" || string[i] != "e" || string[i] != "i" || string[i] != "o" || string[i] != "u"){
+            if(tolower(string[i]) != 'a' && tolower(string[i]) != 'e' && tolower(string[i]) != 'i' && tolower(string[i]) != 'o' && tolower(string[i]) != 'u' && !(string[i] >= 48 && string[i] <= 57)){
             aux ++;
             }
         }
@@ -71,4 +72,39 @@
         return ehReal;
     }
 
+    void verifica(char string[]) {
+    bool ehVogal = vogais(string);
+    bool ehConsoante = consoantes(string);
+    bool ehInteiro = inteiro(string);
+    bool ehReal = real(string);
+
+    if (ehVogal) printf("SIM ");
+    else printf("NAO ");
+
+    if (ehConsoante) printf("SIM ");
+    else printf("NAO ");
+
+    if (ehInteiro) printf("SIM ");
+    else printf("NAO ");
     
+    if (ehReal) printf("SIM\n");
+    else printf("NAO\n");
+}
+
+    int main() {
+    char string[1000];
+
+    for (;;) {
+        fgets(string, sizeof(string), stdin);
+
+        string[strcspn(string, "\n")] = '\0';
+
+        if (strcmp(string, "FIM") == 0) {
+            break;
+        }
+
+        verifica(string);
+    }
+
+    return 0;
+}
