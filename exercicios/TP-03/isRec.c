@@ -5,18 +5,20 @@
 #include <ctype.h>
 
     bool vogais(char string[], int tam, int aux, int i){
-        bool ehVogal = false;
-        if(aux == tam){ 
-            ehVogal = true;
-            return ehVogal;
-        }
-
-        if(tolower(string[i]) == 'a' || tolower(string[i]) == 'e' || tolower(string[i]) == 'i' || tolower(string[i]) == 'o' || tolower(string[i]) == 'u'){
-        return vogais(string, tam, aux + 1, i + 1);
-        }
-
-        return ehVogal;
+    if(aux == tam){ 
+        return true; // chegou ao final sem falhar -> só vogais
     }
+
+    if(tolower(string[i]) == 'a' || tolower(string[i]) == 'e' || 
+       tolower(string[i]) == 'i' || tolower(string[i]) == 'o' || 
+       tolower(string[i]) == 'u'){
+        // continua verificando
+        return vogais(string, tam, aux + 1, i + 1);
+    } else {
+        // achou consoante
+        return false;
+    }
+}
 
     bool consoantes(char string[]){
         bool ehConsoante = false;
