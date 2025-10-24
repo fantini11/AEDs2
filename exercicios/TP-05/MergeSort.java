@@ -5,35 +5,35 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
 
-// Renomeado de NoArrayListM para NoArrayList
+
 class NoArrayList {
     public static final int MAX_GAMES = 500;
     public static final int MAX_INNER_ARRAY = 50;
     public static final int MAX_IDS = 100;
 }
 
-// Renomeado de GameM para games
+
 class games {
-    int appid; // era id
-    String titulo; // era name
-    String dataLancamento; // era releaseDate
-    int proprietariosEstimados; // era estimatedOwners
-    float valorJogo; // era price
-    String[] idiomasSuportados; // era supportedLanguages
-    int idiomasSuportadosCount; // era supportedLanguagesCount
-    int pontuacaoMetacritic; // era metacriticScore
-    float avaliacaoUsuarios; // era userScore
-    int totalConquistas; // era achievements
-    String[] editoras; // era publishers
-    int editorasCount; // era publishersCount
-    String[] desenvolvedores; // era developers
-    int desenvolvedoresCount; // era developersCount
-    String[] categoriasJogo; // era categories
-    int categoriasJogoCount; // era categoriesCount
-    String[] generosJogo; // era genres
-    int generosJogoCount; // era genresCount
-    String[] tagsJogo; // era tags
-    int tagsJogoCount; // era tagsCount
+    int appid; 
+    String titulo; 
+    String dataLancamento; 
+    int proprietariosEstimados; 
+    float valorJogo; 
+    String[] idiomasSuportados; 
+    int idiomasSuportadosCount; 
+    int pontuacaoMetacritic; 
+    float avaliacaoUsuarios; 
+    int totalConquistas; 
+    String[] editoras; 
+    int editorasCount; 
+    String[] desenvolvedores; 
+    int desenvolvedoresCount;
+    String[] categoriasJogo; 
+    int categoriasJogoCount; 
+    String[] generosJogo; 
+    int generosJogoCount; 
+    String[] tagsJogo; 
+    int tagsJogoCount; 
 
     // Construtor padrão atualizado
     games() {
@@ -125,9 +125,9 @@ public class MergeSort {
         printandoBaratos(gamesList, gamesListTamanho);
 
         try {
-            FileWriter fw = new FileWriter("885732_mergesort.txt");
+            FileWriter fw = new FileWriter("885173_mergesort.txt");
             PrintWriter pw = new PrintWriter(fw);
-            pw.println("885732" + "\t" + comparacoes + "\t" + movimentacoes + "\t" + tempoExecucao);
+            pw.println("885173" + "\t" + comparacoes + "\t" + movimentacoes + "\t" + tempoExecucao);
             pw.close();
         } catch (Exception e) {
             System.out.println("Erro ao escrever o arquivo de log: " + e.getMessage());

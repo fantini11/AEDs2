@@ -11,29 +11,28 @@ class NoArrayList {
     public static final int MAX_IDS = 100;
 }
 
-// Classe 'Game' renomeada para 'games' (minúsculo, como em games.java)
-// Atributos renomeados para corresponder a games.java
+
 class games {
-    int appid; // era id
-    String titulo; // era name
-    String dataLancamento; // era releaseDate
-    int proprietariosEstimados; // era estimatedOwners
-    float valorJogo; // era price
-    String[] idiomasSuportados; // era supportedLanguages
-    int idiomasSuportadosCount; // era supportedLanguagesCount
-    int pontuacaoMetacritic; // era metacriticScore
-    float avaliacaoUsuarios; // era userScore
-    int totalConquistas; // era achievements
-    String[] editoras; // era publishers
-    int editorasCount; // era publishersCount
-    String[] desenvolvedores; // era developers
-    int desenvolvedoresCount; // era developersCount
-    String[] categoriasJogo; // era categories
-    int categoriasJogoCount; // era categoriesCount
-    String[] generosJogo; // era genres
-    int generosJogoCount; // era genresCount
-    String[] tagsJogo; // era tags
-    int tagsJogoCount; // era tagsCount
+    int appid; 
+    String titulo; 
+    String dataLancamento; 
+    int proprietariosEstimados; 
+    float valorJogo; 
+    String[] idiomasSuportados; 
+    int idiomasSuportadosCount; 
+    int pontuacaoMetacritic; 
+    float avaliacaoUsuarios; 
+    int totalConquistas; 
+    String[] editoras; 
+    int editorasCount; 
+    String[] desenvolvedores; 
+    int desenvolvedoresCount; 
+    String[] categoriasJogo; 
+    int categoriasJogoCount; 
+    String[] generosJogo; 
+    int generosJogoCount; 
+    String[] tagsJogo; 
+    int tagsJogoCount; 
 
     // Construtor padrão atualizado
     games() {
@@ -96,7 +95,7 @@ class HLogMetrics {
     public static long comparacoes = 0;
     public static long movimentacoes = 0;
     public static long tempoExecucaoMs = 0;
-    public static final String MATRICULA = "885732";
+    public static final String MATRICULA = "885173";
 
     public static void gerarLog() {
         try {
