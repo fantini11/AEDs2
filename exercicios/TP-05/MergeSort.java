@@ -1,6 +1,9 @@
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.io.IOException; // Adicionando import que faltava no outro arquivo (boa prática)
+import java.io.IOException;
 
 // Renomeado de NoArrayListM para NoArrayList
 class NoArrayList {
