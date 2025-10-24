@@ -1,13 +1,9 @@
-Aqui está o seu arquivo QuickSort.c modificado para usar os nomes da struct Game do arquivo jogo.c, e sem os comentários dos nomes antigos.
-
-C
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include <time.h>
-#include <ctype.h> // Adicionado para isspace (necessário pela função trim)
+#include <ctype.h> 
 
 #define MAX_LINE_SIZE 4096
 #define MAX_FIELD_SIZE 512
