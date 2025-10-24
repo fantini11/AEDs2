@@ -2,6 +2,8 @@ import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Scanner;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 class NoArrayList {
     public static final int MAX_GAMES = 500;
