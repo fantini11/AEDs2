@@ -19,7 +19,7 @@ class GamePesquisado {
 public class PesquisaBinaria {
     public static Scanner sc = new Scanner(System.in);
     // Variáveis para o log
-    private static final String MATRICULA = "885732";
+    private static final String MATRICULA = "885173";
     private static long tempoExecucao = 0;
     private static int numComparacoes = 0;
 
