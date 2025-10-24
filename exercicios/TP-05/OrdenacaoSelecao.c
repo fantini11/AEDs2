@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <time.h>
+#include <ctype.h>
 
 #define MAX_LINE_SIZE 4096
 #define MAX_FIELD_SIZE 512
@@ -10,26 +11,26 @@
 
 //Estrutura para armazenar os dados de um jogo
 typedef struct {
-    int id;
-    char* name;
-    char* releaseDate;
-    int estimatedOwners;
-    float price;
-    char** supportedLanguages;
-    int supportedLanguagesCount;
-    int metacriticScore;
-    float userScore;
-    int achievements;
-    char** publishers;
-    int publishersCount;
-    char** developers;
-    int developersCount;
-    char** categories;
-    int categoriesCount;
-    char** genres;
-    int genresCount;
-    char** tags;
-    int tagsCount;
+    int appid;
+    char* nome;
+    char* data_lancamento;
+    int proprietarios_estimados;
+    float valor;
+    char** linguas_suportadas;
+    int total_linguas;
+    int pontuacao_metacritic;
+    float avaliacao_usuarios;
+    int total_conquistas;
+    char** editoras;
+    int total_editoras;
+    char** desenvolvedoras;
+    int total_desenvolvedoras;
+    char** tipos_categoria;
+    int total_categorias;
+    char** tipos_genero;
+    int total_generos;
+    char** etiquetas;
+    int total_etiquetas;
 } Game;
 
 // Variáveis globais para contagem
@@ -99,7 +100,7 @@ int main() {
 
         int targetId = atoi(inputId);
         for (i = 0; i < gameCount; i++) {
-            if (allGames[i].id == targetId) {
+            if (allGames[i].appid == targetId) {
                 gamesParaOrdenar[countParaOrdenar] = allGames[i];
                 countParaOrdenar++;
                 break;
@@ -116,7 +117,7 @@ int main() {
         printGame(&gamesParaOrdenar[i]);
     }
 
-    criarLog("885732", comparacoes, movimentacoes, tempo);
+    criarLog("885173", comparacoes, movimentacoes, tempo);
 
     free(gamesParaOrdenar);
     
@@ -136,7 +137,7 @@ void selectionSort(Game* games, int n) {
         min_idx = i;
         for (j = i + 1; j < n; j++) {
             comparacoes++;
-            if (strcmp(games[j].name, games[min_idx].name) < 0) {
+            if (strcmp(games[j].nome, games[min_idx].nome) < 0) {
                 min_idx = j;
             }
         }
@@ -157,7 +158,7 @@ void swap(Game* a, Game* b) {
 
 // Função para criar arquivo de log
 void criarLog(const char* matricula, int comp, int mov, double tempo) {
-    FILE* logFile = fopen("suamatricula_selecao.txt", "w");
+    FILE* logFile = fopen("885173_selecao.txt", "w"); 
     if (logFile != NULL) {
         fprintf(logFile, "%s\t%d\t%d\t%f\n", matricula, comp, mov, tempo);
         fclose(logFile);
@@ -168,77 +169,77 @@ void criarLog(const char* matricula, int comp, int mov, double tempo) {
 void parseAndLoadGame(Game* game, char* line) {
     int pos = 0;
 
-    game->id = atoi(getNextField(line, &pos));
-    game->name = getNextField(line, &pos);
-    game->releaseDate = formatDate(getNextField(line, &pos));
-    game->estimatedOwners = atoi(getNextField(line, &pos));
+    game->appid = atoi(getNextField(line, &pos));
+    game->nome = getNextField(line, &pos);
+    game->data_lancamento = formatDate(getNextField(line, &pos));
+    game->proprietarios_estimados = atoi(getNextField(line, &pos));
     
     char* priceStr = getNextField(line, &pos);
-    game->price = (strcmp(priceStr, "Free to Play") == 0 || strlen(priceStr) == 0) ? 0.0f : atof(priceStr);
+    game->valor = (strcmp(priceStr, "Free to Play") == 0 || strlen(priceStr) == 0) ? 0.0f : atof(priceStr);
     free(priceStr);
 
     char* langStr = getNextField(line, &pos);
     langStr[strcspn(langStr, "]")] = 0; 
     memmove(langStr, langStr + 1, strlen(langStr)); 
     for(int i = 0; langStr[i]; i++) if(langStr[i] == '\'') langStr[i] = ' ';
-    game->supportedLanguages = splitString(langStr, ',', &game->supportedLanguagesCount);
+    game->linguas_suportadas = splitString(langStr, ',', &game->total_linguas);
     free(langStr);
     
-    game->metacriticScore = atoi(getNextField(line, &pos));
-    game->userScore = atof(getNextField(line, &pos));
-    game->achievements = atoi(getNextField(line, &pos));
+    game->pontuacao_metacritic = atoi(getNextField(line, &pos));
+    game->avaliacao_usuarios = atof(getNextField(line, &pos));
+    game->total_conquistas = atoi(getNextField(line, &pos));
 
-    game->publishers = splitString(getNextField(line, &pos), ',', &game->publishersCount);
-    game->developers = splitString(getNextField(line, &pos), ',', &game->developersCount);
-    game->categories = splitString(getNextField(line, &pos), ',', &game->categoriesCount);
-    game->genres = splitString(getNextField(line, &pos), ',', &game->genresCount);
-    game->tags = splitString(getNextField(line, &pos), ',', &game->tagsCount);
+    game->editoras = splitString(getNextField(line, &pos), ',', &game->total_editoras);
+    game->desenvolvedoras = splitString(getNextField(line, &pos), ',', &game->total_desenvolvedoras);
+    game->tipos_categoria = splitString(getNextField(line, &pos), ',', &game->total_categorias);
+    game->tipos_genero = splitString(getNextField(line, &pos), ',', &game->total_generos);
+    game->etiquetas = splitString(getNextField(line, &pos), ',', &game->total_etiquetas);
 }
 
 // Imprime uma struct Game no formato exigido
 void printGame(Game* game) {
     char formattedDate[12];
-    strcpy(formattedDate, game->releaseDate);
+    strcpy(formattedDate, game->data_lancamento);
     if(formattedDate[1] == '/') {
         memmove(formattedDate + 1, formattedDate, strlen(formattedDate) + 1);
         formattedDate[0] = '0';
     }
 
     printf("=> %d ## %s ## %s ## %d ## %.2f ## ", 
-        game->id, game->name, formattedDate, game->estimatedOwners, game->price);
-    printStringArray(game->supportedLanguages, game->supportedLanguagesCount);
+        game->appid, game->nome, formattedDate, game->proprietarios_estimados, game->valor);
+    printStringArray(game->linguas_suportadas, game->total_linguas);
     printf(" ## %d ## %.1f ## %d ## ", 
-        game->metacriticScore == 0 ? -1 : game->metacriticScore, 
-        game->userScore == 0 ? -1.0f : game->userScore, 
-        game->achievements);
-    printStringArray(game->publishers, game->publishersCount);
+        game->pontuacao_metacritic == 0 ? -1 : game->pontuacao_metacritic, 
+        game->avaliacao_usuarios == 0 ? -1.0f : game->avaliacao_usuarios, 
+        game->total_conquistas);
+    printStringArray(game->editoras, game->total_editoras);
     printf(" ## ");
-    printStringArray(game->developers, game->developersCount);
+    printStringArray(game->desenvolvedoras, game->total_desenvolvedoras);
     printf(" ## ");
-    printStringArray(game->categories, game->categoriesCount);
+    printStringArray(game->tipos_categoria, game->total_categorias);
     printf(" ## ");
-    printStringArray(game->genres, game->genresCount);
+    printStringArray(game->tipos_genero, game->total_generos);
     printf(" ## ");
-    printStringArray(game->tags, game->tagsCount);
+    printStringArray(game->etiquetas, game->total_etiquetas);
     printf(" ##\n");
 }
 
 // Libera a memória de uma única struct Game
 void freeGame(Game* game) {
-    free(game->name);
-    free(game->releaseDate);
-    for (int i = 0; i < game->supportedLanguagesCount; i++) free(game->supportedLanguages[i]);
-    free(game->supportedLanguages);
-    for (int i = 0; i < game->publishersCount; i++) free(game->publishers[i]);
-    free(game->publishers);
-    for (int i = 0; i < game->developersCount; i++) free(game->developers[i]);
-    free(game->developers);
-    for (int i = 0; i < game->categoriesCount; i++) free(game->categories[i]);
-    free(game->categories);
-    for (int i = 0; i < game->genresCount; i++) free(game->genres[i]);
-    free(game->genres);
-    for (int i = 0; i < game->tagsCount; i++) free(game->tags[i]);
-    free(game->tags);
+    free(game->nome);
+    free(game->data_lancamento);
+    for (int i = 0; i < game->total_linguas; i++) free(game->linguas_suportadas[i]);
+    free(game->linguas_suportadas);
+    for (int i = 0; i < game->total_editoras; i++) free(game->editoras[i]);
+    free(game->editoras);
+    for (int i = 0; i < game->total_desenvolvedoras; i++) free(game->desenvolvedoras[i]);
+    free(game->desenvolvedoras);
+    for (int i = 0; i < game->total_categorias; i++) free(game->tipos_categoria[i]);
+    free(game->tipos_categoria);
+    for (int i = 0; i < game->total_generos; i++) free(game->tipos_genero[i]);
+    free(game->tipos_genero);
+    for (int i = 0; i < game->total_etiquetas; i++) free(game->etiquetas[i]);
+    free(game->etiquetas);
 }
 
 // Pega o próximo campo do CSV, tratando aspas
@@ -256,7 +257,16 @@ char* getNextField(char* line, int* pos) {
         if (inQuotes) {
             if (line[*pos] == '"') {
                 (*pos)++;
-                break;
+                if (line[*pos] != ',' && line[*pos] != '\0' && line[*pos] != '\n' && line[*pos] != '\r') {
+                     if (line[*pos] == '"') {
+                        field[i++] = line[(*pos)++];
+                        continue;
+                     } else {
+                        break;
+                     }
+                } else {
+                     break;
+                }
             }
         } else {
             if (line[*pos] == ',') {
@@ -277,10 +287,17 @@ char* getNextField(char* line, int* pos) {
 // Divide uma string em um array de strings
 char** splitString(const char* str, char delimiter, int* count) {
     int initialCount = 0;
+    if (strlen(str) == 0) {
+        *count = 0;
+        return (char**) malloc(0);
+    }
+    
     for(int i = 0; str[i]; i++) if(str[i] == delimiter) initialCount++;
     *count = initialCount + 1;
 
     char** result = (char**) malloc(sizeof(char*) * (*count));
+    if (result == NULL) return NULL;
+    
     char buffer[MAX_FIELD_SIZE];
     int str_idx = 0;
     int result_idx = 0;
@@ -288,14 +305,27 @@ char** splitString(const char* str, char delimiter, int* count) {
     for (int i = 0; i <= strlen(str); i++) {
         if (str[i] == delimiter || str[i] == '\0') {
             buffer[str_idx] = '\0';
-            result[result_idx] = (char*) malloc(sizeof(char) * (strlen(buffer) + 1));
-            strcpy(result[result_idx], trim(buffer));
+            char* trimmedStr = trim(buffer);
+            result[result_idx] = (char*) malloc(sizeof(char) * (strlen(trimmedStr) + 1));
+            if(result[result_idx] == NULL) return NULL;
+            
+            strcpy(result[result_idx], trimmedStr);
             result_idx++;
             str_idx = 0;
         } else {
-            buffer[str_idx++] = str[i];
+            if(str_idx < MAX_FIELD_SIZE - 1) {
+               buffer[str_idx++] = str[i];
+            }
         }
     }
+    
+    if(*count == 1 && strlen(result[0]) == 0){
+        free(result[0]);
+        free(result);
+        *count = 0;
+        return (char**) malloc(0);
+    }
+    
     return result;
 }
 
@@ -313,11 +343,13 @@ char* trim(char* str) {
 // Formata a data para dd/MM/yyyy
 char* formatDate(char* dateStr) {
     char* formattedDate = (char*) malloc(sizeof(char) * 12);
+    if(formattedDate == NULL) return NULL;
+
     char monthStr[4] = {0};
     char day[3] = "01";
     char year[5] = "0000";
 
-    sscanf(dateStr, "%s", monthStr);
+    sscanf(dateStr, "%3s", monthStr);
 
     char* monthNum = "01";
     if (strcmp(monthStr, "Feb") == 0) monthNum = "02";
@@ -333,9 +365,27 @@ char* formatDate(char* dateStr) {
     else if (strcmp(monthStr, "Dec") == 0) monthNum = "12";
 
     char* ptr = dateStr;
-    while(*ptr && !isdigit(*ptr)) ptr++;
-    if(isdigit(*ptr)) sscanf(ptr, "%[^,], %s", day, year);
+    while(*ptr && !isdigit((unsigned char)*ptr)) ptr++;
     
+    if(isdigit((unsigned char)*ptr)) {
+        if(sscanf(ptr, "%2s, %4s", day, year) == 2) {
+        } 
+        else if (sscanf(ptr, "%2s %4s", day, year) == 2) {
+        }
+        else if (sscanf(ptr, "%4s", year) == 1){
+             strcpy(day, "01");
+        }
+    } else {
+         strcpy(day, "01");
+         strcpy(year, "0000");
+    }
+    
+    if(strlen(day) == 1) {
+        day[1] = day[0];
+        day[0] = '0';
+        day[2] = '\0';
+    }
+
     sprintf(formattedDate, "%s/%s/%s", day, monthNum, year);
     free(dateStr);
     return formattedDate;
