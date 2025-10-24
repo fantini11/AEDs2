@@ -1,5 +1,3 @@
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -11,79 +9,84 @@ class NoArrayList {
     public static final int MAX_IDS = 100;
 }
 
-class Game {
-    int id;
-    String name;
-    String releaseDate;
-    int estimatedOwners;
-    float price;
-    String[] supportedLanguages;
-    int supportedLanguagesCount;
-    int metacriticScore;
-    float userScore;
-    int achievements;
-    String[] publishers;
-    int publishersCount;
-    String[] developers;
-    int developersCount;
-    String[] categories;
-    int categoriesCount;
-    String[] genres;
-    int genresCount;
-    String[] tags;
-    int tagsCount;
+// Classe 'Game' renomeada para 'games' (minúsculo, como em games.java)
+// Atributos renomeados para corresponder a games.java
+class games {
+    int appid; // era id
+    String titulo; // era name
+    String dataLancamento; // era releaseDate
+    int proprietariosEstimados; // era estimatedOwners
+    float valorJogo; // era price
+    String[] idiomasSuportados; // era supportedLanguages
+    int idiomasSuportadosCount; // era supportedLanguagesCount
+    int pontuacaoMetacritic; // era metacriticScore
+    float avaliacaoUsuarios; // era userScore
+    int totalConquistas; // era achievements
+    String[] editoras; // era publishers
+    int editorasCount; // era publishersCount
+    String[] desenvolvedores; // era developers
+    int desenvolvedoresCount; // era developersCount
+    String[] categoriasJogo; // era categories
+    int categoriasJogoCount; // era categoriesCount
+    String[] generosJogo; // era genres
+    int generosJogoCount; // era genresCount
+    String[] tagsJogo; // era tags
+    int tagsJogoCount; // era tagsCount
 
-    Game() {
-        this.id = 0;
-        this.name = "";
-        this.releaseDate = "";
-        this.estimatedOwners = 0;
-        this.price = 0.0f;
-        this.supportedLanguages = new String[NoArrayList.MAX_INNER_ARRAY];
-        this.supportedLanguagesCount = 0;
-        this.metacriticScore = -1;
-        this.userScore = -1.0f;
-        this.achievements = 0;
-        this.publishers = new String[NoArrayList.MAX_INNER_ARRAY];
-        this.publishersCount = 0;
-        this.developers = new String[NoArrayList.MAX_INNER_ARRAY];
-        this.developersCount = 0;
-        this.categories = new String[NoArrayList.MAX_INNER_ARRAY];
-        this.categoriesCount = 0;
-        this.genres = new String[NoArrayList.MAX_INNER_ARRAY];
-        this.genresCount = 0;
-        this.tags = new String[NoArrayList.MAX_INNER_ARRAY];
-        this.tagsCount = 0;
+    // Construtor padrão atualizado
+    games() {
+        this.appid = 0;
+        this.titulo = "";
+        this.dataLancamento = "";
+        this.proprietariosEstimados = 0;
+        this.valorJogo = 0.0f;
+        this.idiomasSuportados = new String[NoArrayList.MAX_INNER_ARRAY];
+        this.idiomasSuportadosCount = 0;
+        this.pontuacaoMetacritic = -1;
+        this.avaliacaoUsuarios = -1.0f;
+        this.totalConquistas = 0;
+        this.editoras = new String[NoArrayList.MAX_INNER_ARRAY];
+        this.editorasCount = 0;
+        this.desenvolvedores = new String[NoArrayList.MAX_INNER_ARRAY];
+        this.desenvolvedoresCount = 0;
+        this.categoriasJogo = new String[NoArrayList.MAX_INNER_ARRAY];
+        this.categoriasJogoCount = 0;
+        this.generosJogo = new String[NoArrayList.MAX_INNER_ARRAY];
+        this.generosJogoCount = 0;
+        this.tagsJogo = new String[NoArrayList.MAX_INNER_ARRAY];
+        this.tagsJogoCount = 0;
     }
 
-    Game(int id, String name, String releaseDate, int estimatedOwners, float price,
-            String[] supportedLanguages, int supportedLanguagesCount, int metacriticScore, float userScore,
-            int achievements,
-            String[] publishers, int publishersCount, String[] developers, int developersCount,
-            String[] categories, int categoriesCount, String[] genres, int genresCount, String[] tags, int tagsCount) {
-        this.id = id;
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.estimatedOwners = estimatedOwners;
-        this.price = price;
+    // Construtor completo atualizado (parâmetros e 'this' assignments)
+    games(int appid, String titulo, String dataLancamento, int proprietariosEstimados, float valorJogo,
+            String[] idiomasSuportados, int idiomasSuportadosCount, int pontuacaoMetacritic, float avaliacaoUsuarios,
+            int totalConquistas,
+            String[] editoras, int editorasCount, String[] desenvolvedores, int desenvolvedoresCount,
+            String[] categoriasJogo, int categoriasJogoCount, String[] generosJogo, int generosJogoCount,
+            String[] tagsJogo, int tagsJogoCount) {
+        this.appid = appid;
+        this.titulo = titulo;
+        this.dataLancamento = dataLancamento;
+        this.proprietariosEstimados = proprietariosEstimados;
+        this.valorJogo = valorJogo;
 
         // Copiando arrays
-        this.supportedLanguages = supportedLanguages;
-        this.supportedLanguagesCount = supportedLanguagesCount;
-        this.publishers = publishers;
-        this.publishersCount = publishersCount;
-        this.developers = developers;
-        this.developersCount = developersCount;
-        this.categories = categories;
-        this.categoriesCount = categoriesCount;
-        this.genres = genres;
-        this.genresCount = genresCount;
-        this.tags = tags;
-        this.tagsCount = tagsCount;
+        this.idiomasSuportados = idiomasSuportados;
+        this.idiomasSuportadosCount = idiomasSuportadosCount;
+        this.editoras = editoras;
+        this.editorasCount = editorasCount;
+        this.desenvolvedores = desenvolvedores;
+        this.desenvolvedoresCount = desenvolvedoresCount;
+        this.categoriasJogo = categoriasJogo;
+        this.categoriasJogoCount = categoriasJogoCount;
+        this.generosJogo = generosJogo;
+        this.generosJogoCount = generosJogoCount;
+        this.tagsJogo = tagsJogo;
+        this.tagsJogoCount = tagsJogoCount;
 
-        this.metacriticScore = metacriticScore;
-        this.userScore = userScore;
-        this.achievements = achievements;
+        this.pontuacaoMetacritic = pontuacaoMetacritic;
+        this.avaliacaoUsuarios = avaliacaoUsuarios;
+        this.totalConquistas = totalConquistas;
     }
 }
 
@@ -122,7 +125,8 @@ public class HeapSort {
             entrada = sc.nextLine();
         }
 
-        Game[] gamesList = JogosDigitados.inicializacao(ids, idsTamanho);
+        // Atualizado para usar 'games[]'
+        games[] gamesList = JogosDigitados.inicializacao(ids, idsTamanho);
         int gamesListTamanho = JogosDigitados.obterTamanhoGamesList();
 
         long tempoInicio = System.currentTimeMillis();
@@ -136,8 +140,9 @@ public class HeapSort {
         sc.close();
     }
 
-    static Game[] ordenacaoHeapSort(Game[] gameList, int tam) {
-        Game[] tmp = new Game[tam + 1];
+    // Atualizado para usar 'games[]'
+    static games[] ordenacaoHeapSort(games[] gameList, int tam) {
+        games[] tmp = new games[tam + 1];
         for (int i = 0; i < tam; i++) {
             tmp[i + 1] = gameList[i];
         }
@@ -154,7 +159,7 @@ public class HeapSort {
             reconstruir(1, tamHeap, gameList);
         }
 
-        Game[] tmp2 = new Game[tam];
+        games[] tmp2 = new games[tam];
         for (int i = 0; i < tam; i++) {
             tmp2[i] = gameList[i + 1];
         }
@@ -163,7 +168,8 @@ public class HeapSort {
         return gameList;
     }
 
-    static void reconstruir(int i, int tamHeap, Game[] gameList) {
+    // Atualizado para usar 'games[]'
+    static void reconstruir(int i, int tamHeap, games[] gameList) {
         int filho;
         while (i <= (tamHeap / 2)) {
             filho = getMaiorFilho(i, tamHeap, gameList);
@@ -177,7 +183,8 @@ public class HeapSort {
         }
     }
 
-    static int getMaiorFilho(int i, int tamHeap, Game[] gameList) {
+    // Atualizado para usar 'games[]'
+    static int getMaiorFilho(int i, int tamHeap, games[] gameList) {
         int filho;
         int filhoEsquerdo = 2 * i;
         int filhoDireito = 2 * i + 1;
@@ -194,43 +201,53 @@ public class HeapSort {
         return filho;
     }
 
-    static void swap(int p1, int p2, Game[] gameList) {
-        Game aux = gameList[p2];
+    // Atualizado para usar 'games[]' e 'games'
+    static void swap(int p1, int p2, games[] gameList) {
+        games aux = gameList[p2];
         gameList[p2] = gameList[p1];
         gameList[p1] = aux;
         HLogMetrics.movimentacoes += 3;
     }
 
-    static boolean maiores(Game[] gameList, int p1, int p2) {
-        if (gameList[p1].estimatedOwners > gameList[p2].estimatedOwners) {
+    // Atualizado para usar 'games[]' e os novos nomes de atributos
+    static boolean maiores(games[] gameList, int p1, int p2) {
+        // Comparando por 'proprietariosEstimados'
+        if (gameList[p1].proprietariosEstimados > gameList[p2].proprietariosEstimados) {
             return true;
-        } else if (gameList[p1].estimatedOwners == gameList[p2].estimatedOwners) {
-            return gameList[p1].id > gameList[p2].id;
+        } else if (gameList[p1].proprietariosEstimados == gameList[p2].proprietariosEstimados) {
+            // Critério de desempate: 'appid'
+            return gameList[p1].appid > gameList[p2].appid;
         }
         return false;
     }
 
-    static void printando(Game[] jogosOrdenados, int tamanho) {
+    // Atualizado para usar 'games[]' e os novos nomes de atributos
+    static void printando(games[] jogosOrdenados, int tamanho) {
         for (int i = 0; i < tamanho; i++) {
-            String releaseDate = (jogosOrdenados[i].releaseDate.charAt(1) == '/'
-                    ? "0" + jogosOrdenados[i].releaseDate
-                    : jogosOrdenados[i].releaseDate);
+            // Usando 'dataLancamento'
+            String releaseDate = (jogosOrdenados[i].dataLancamento.charAt(1) == '/'
+                    ? "0" + jogosOrdenados[i].dataLancamento
+                    : jogosOrdenados[i].dataLancamento);
             System.out.println(
-                    "=> " + jogosOrdenados[i].id + " ## " + jogosOrdenados[i].name + " ## " + releaseDate
-                            + " ## " + jogosOrdenados[i].estimatedOwners + " ## " + jogosOrdenados[i].price
+                    // Usando os novos nomes de atributos
+                    "=> " + jogosOrdenados[i].appid + " ## " + jogosOrdenados[i].titulo + " ## " + releaseDate
+                            + " ## " + jogosOrdenados[i].proprietariosEstimados + " ## " + jogosOrdenados[i].valorJogo
                             + " ## "
-                            + printArray(jogosOrdenados[i].supportedLanguages,
-                                    jogosOrdenados[i].supportedLanguagesCount)
-                            + " ## " + jogosOrdenados[i].metacriticScore + " ## " + jogosOrdenados[i].userScore
-                            + " ## " + jogosOrdenados[i].achievements
-                            + " ## " + printArray(jogosOrdenados[i].publishers, jogosOrdenados[i].publishersCount)
-                            + " ## " + printArray(jogosOrdenados[i].developers, jogosOrdenados[i].developersCount)
-                            + " ## " + printArray(jogosOrdenados[i].categories, jogosOrdenados[i].categoriesCount)
-                            + " ## " + printArray(jogosOrdenados[i].genres, jogosOrdenados[i].genresCount)
+                            + printArray(jogosOrdenados[i].idiomasSuportados,
+                                    jogosOrdenados[i].idiomasSuportadosCount)
+                            + " ## " + jogosOrdenados[i].pontuacaoMetacritic + " ## "
+                            + jogosOrdenados[i].avaliacaoUsuarios
+                            + " ## " + jogosOrdenados[i].totalConquistas
+                            + " ## " + printArray(jogosOrdenados[i].editoras, jogosOrdenados[i].editorasCount)
+                            + " ## " + printArray(jogosOrdenados[i].desenvolvedores,
+                                    jogosOrdenados[i].desenvolvedoresCount)
+                            + " ## " + printArray(jogosOrdenados[i].categoriasJogo,
+                                    jogosOrdenados[i].categoriasJogoCount)
+                            + " ## " + printArray(jogosOrdenados[i].generosJogo, jogosOrdenados[i].generosJogoCount)
                             + " ## "
-                            + (jogosOrdenados[i].tagsCount == 0 ? ""
-                                    : printArray(jogosOrdenados[i].tags, jogosOrdenados[i].tagsCount))
-                            + (jogosOrdenados[i].tagsCount == 0 ? "" : " ##"));
+                            + (jogosOrdenados[i].tagsJogoCount == 0 ? ""
+                                    : printArray(jogosOrdenados[i].tagsJogo, jogosOrdenados[i].tagsJogoCount))
+                            + (jogosOrdenados[i].tagsJogoCount == 0 ? "" : " ##"));
         }
     }
 
@@ -258,8 +275,8 @@ class JogosDigitados {
     // Ids de pesquisa e seu tamanho
     static String[] ids;
     static int idsTamanho;
-    // Lista de jogos encontrados e seu tamanho
-    static Game[] gamesList;
+    // Lista de jogos encontrados e seu tamanho (Atualizado para 'games[]')
+    static games[] gamesList;
     static int gamesListTamanho;
 
     // Função para obter o tamanho final da lista de jogos
@@ -267,10 +284,10 @@ class JogosDigitados {
         return gamesListTamanho;
     }
 
-    // Capturando os jogos
-    static Game[] inicializacao(String[] idArray, int tamanho) {
-        // Array de jogos
-        gamesList = new Game[NoArrayList.MAX_GAMES];
+    // Capturando os jogos (Atualizado para retornar 'games[]')
+    static games[] inicializacao(String[] idArray, int tamanho) {
+        // Array de jogos (Atualizado para 'games[]')
+        gamesList = new games[NoArrayList.MAX_GAMES];
         gamesListTamanho = 0;
 
         // Copiando IDs para a variável de classe 'ids'
@@ -302,10 +319,12 @@ class JogosDigitados {
             // Resetando o contador para a nova linha
             contador = 0;
             // Capturando outras informações
-            int id = capturaId(linha);
+            int id = capturaId(linha); // Variável local 'id' mantida
 
             int indiceEncontrado = igualId(id);
             if (indiceEncontrado != -1) {
+                // Variáveis locais mantidas com nomes antigos (capturaName, etc.)
+                // Elas serão passadas para o novo construtor 'games()'
                 String name = capturaName(linha);
                 String releaseDate = capturaReleaseDate(linha);
                 int estimatedOwners = capturaEstimatedOwners(linha);
@@ -328,8 +347,10 @@ class JogosDigitados {
                 String[] tags = new String[NoArrayList.MAX_INNER_ARRAY];
                 int tagsCount = capturaUltimosArryays(linha, tags);
 
-                // Adicionando a classe
-                Game jogo = new Game(id, name, releaseDate, estimatedOwners, price,
+                // Adicionando a classe (Atualizado para 'games')
+                // O construtor 'games' aceita (id, name, ...) e os atribui a
+                // (appid, titulo, ...) internamente.
+                games jogo = new games(id, name, releaseDate, estimatedOwners, price,
                         supportedLanguages, supportedLanguagesCount, metacriticScore, userScore, achievements,
                         publishers, publishersCount, developers, developersCount, categories, categoriesCount, genres,
                         genresCount, tags, tagsCount);
@@ -339,9 +360,8 @@ class JogosDigitados {
         }
         sc.close();
 
-        // Redimensiona o array final para o tamanho real, mantendo a lógica do seu
-        // código original
-        Game[] resultadoFinal = new Game[gamesListTamanho];
+        // Redimensiona o array final para o tamanho real (Atualizado para 'games[]')
+        games[] resultadoFinal = new games[gamesListTamanho];
         for (int i = 0; i < gamesListTamanho; i++) {
             resultadoFinal[i] = gamesList[i];
         }
