@@ -80,18 +80,21 @@ void imprimirResposta(int x) {
 int main() {
     char s1[1000];
     char s2[1000];
+    int continuar = 1;
 
-    fgets(s1, 1000, stdin);
-    removerEnter(s1);
-
-    while (!isFim(s1)) {
-        fgets(s2, 1000, stdin);
-        removerEnter(s2);
-
-        imprimirResposta(ehAnagrama(s1, s2));
-
-        fgets(s1, 1000, stdin);
+    while (continuar == 1 && fgets(s1, 1000, stdin) != NULL) {
         removerEnter(s1);
+
+        if (isFim(s1) == 1) {
+            continuar = 0;
+        } else {
+            if (fgets(s2, 1000, stdin) != NULL) {
+                removerEnter(s2);
+                imprimirResposta(ehAnagrama(s1, s2));
+            } else {
+                continuar = 0;
+            }
+        }
     }
 
     return 0;
