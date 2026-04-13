@@ -1,23 +1,23 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-void somar(int numero, int soma){
-    if(numero == 0){
-    printf("%i\n", soma);
+int somaDigitos(int n) {
+    int resp;
+
+    if (n == 0) {
+        resp = 0;
     } else {
-        int digito = numero % 10;
-        soma += digito;
-        numero /= 10;
-        somar(numero, soma);
+        resp = (n % 10) + somaDigitos(n / 10);
     }
-    
+
+    return resp;
 }
 
-int main(){
-    int numero = 0;
-    int soma = 0;
-    while(scanf("%i", &numero) != EOF){
-        somar(numero, soma);
-    }  
+int main() {
+    int n;
+
+    while (scanf("%d", &n) == 1) {
+        printf("%d\n", somaDigitos(n));
+    }
+
     return 0;
 }

@@ -1,28 +1,48 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-void inverter(char str[], int tam){
-    for(int i = 0; i < tam/2; i++){
-        char temp = str[i];
-        str[i] = str[tam - i - 1];
-        str[tam - i - 1] = temp;
-    }
-    printf("%s\n", str);
-}
+int isFim(char s[]) {
+    int resp = 0;
 
-
-int main(){
-    char str[100];
-    scanf("%s", str);  
-    while(str[0] != 'F' || str[1] != 'I' || str[2] != 'M'){ 
-    int tam = 0;
-
-    for(int i = 0; str[i] != '\0'; i++){
-        tam++;
+    if (s[0] == 'F' && s[1] == 'I' && s[2] == 'M' && s[3] == '\0') {
+        resp = 1;
     }
 
-    inverter(str, tam);
-    scanf("%s", str);
+    return resp;
 }
-     return 0;
+
+int tamanho(char s[]) {
+    int i = 0;
+
+    while (s[i] != '\0' && s[i] != '\n') {
+        i++;
+    }
+
+    return i;
+}
+
+void inverter(char s[], char resp[]) {
+    int tam = tamanho(s);
+
+    for (int i = 0; i < tam; i++) {
+        resp[i] = s[tam - 1 - i];
+    }
+
+    resp[tam] = '\0';
+}
+
+int main() {
+    char s[1000];
+    char inv[1000];
+
+    fgets(s, 1000, stdin);
+
+    while (!isFim(s)) {
+
+        inverter(s, inv);
+        printf("%s\n", inv);
+
+        fgets(s, 1000, stdin);
+    }
+
+    return 0;
 }
