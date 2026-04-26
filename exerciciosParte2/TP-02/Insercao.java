@@ -314,7 +314,7 @@ class ColecaoRestaurantes {
 }
 
 public class Insercao {
-    public static final String MATRICULA = "000000";
+    public static final String MATRICULA = "885173";
 
     public static void insercao(Restaurante[] array, int n, long[] comparacoes, long[] movimentacoes) {
         for (int i = 1; i < n; i++) {
