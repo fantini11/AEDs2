@@ -337,7 +337,7 @@ class FilaCircular {
     }
 }
 
-public class FilaCircular {
+public class FilaCircu {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
         ColecaoRestaurantes colecao = ColecaoRestaurantes.lerCsv();
