@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <strings.h>
 #include <time.h>
 
 #define MATRICULA "885173"
@@ -39,11 +38,7 @@ typedef struct Colecao_Restaurantes {
 
 int tamanho_string(char *s) {
     int i = 0;
-
-    while (s[i] != '\0') {
-        i++;
-    }
-
+    while (s[i] != '\0') i++;
     return i;
 }
 
@@ -58,11 +53,10 @@ char *copiar_string(char *s) {
     }
 
     resp[i] = '\0';
-
     return resp;
 }
 
-void remover_enter(char *s) {
+void limpar_linha(char *s) {
     int i = 0;
 
     while (s[i] != '\0') {
@@ -73,19 +67,37 @@ void remover_enter(char *s) {
     }
 }
 
+void aparar(char *s) {
+    int ini = 0;
+    int fim = tamanho_string(s) - 1;
+    int i = 0;
+
+    while (s[ini] == ' ' || s[ini] == '\t') {
+        ini++;
+    }
+
+    while (fim >= ini && (s[fim] == ' ' || s[fim] == '\t')) {
+        fim--;
+    }
+
+    while (ini <= fim) {
+        s[i] = s[ini];
+        i++;
+        ini++;
+    }
+
+    s[i] = '\0';
+}
+
 Data parse_data(char *s) {
     Data d;
-
     sscanf(s, "%d-%d-%d", &d.ano, &d.mes, &d.dia);
-
     return d;
 }
 
 Hora parse_hora(char *s) {
     Hora h;
-
     sscanf(s, "%d:%d", &h.hora, &h.minuto);
-
     return h;
 }
 
@@ -102,9 +114,7 @@ void separar_horario(char *s, Hora *abertura, Hora *fechamento) {
     }
     parte_abertura[j] = '\0';
 
-    if (s[i] == '-') {
-        i++;
-    }
+    if (s[i] == '-') i++;
 
     j = 0;
     while (s[i] != '\0') {
@@ -123,9 +133,7 @@ int converter_faixa_preco(char *s) {
     int i = 0;
 
     while (s[i] != '\0') {
-        if (s[i] == '$') {
-            resp++;
-        }
+        if (s[i] == '$') resp++;
         i++;
     }
 
@@ -200,8 +208,13 @@ Restaurante *parse_restaurante(char *s) {
 
     if (qtd >= 10) {
         sscanf(campos[0], "%d", &r->id);
+
+        aparar(campos[1]);
         r->nome = copiar_string(campos[1]);
+
+        aparar(campos[2]);
         r->cidade = copiar_string(campos[2]);
+
         sscanf(campos[3], "%d", &r->capacidade);
         sscanf(campos[4], "%lf", &r->avaliacao);
         r->n_tipos_cozinha = separar_tipos_cozinha(campos[5], r->tipos_cozinha);
@@ -209,6 +222,7 @@ Restaurante *parse_restaurante(char *s) {
         separar_horario(campos[7], &r->horario_abertura, &r->horario_fechamento);
         r->data_abertura = parse_data(campos[8]);
 
+        aparar(campos[9]);
         if (strcmp(campos[9], "true") == 0) {
             r->aberto = 1;
         }
@@ -225,12 +239,10 @@ void ler_csv_colecao(Colecao_Restaurantes *colecao, char *path) {
     colecao->restaurantes = (Restaurante **) malloc(2000 * sizeof(Restaurante *));
 
     if (arquivo != NULL) {
-        if (fgets(linha, 1000, arquivo) != NULL) {
-            /* pula cabecalho */
-        }
+        fgets(linha, 1000, arquivo);
 
         while (fgets(linha, 1000, arquivo) != NULL) {
-            remover_enter(linha);
+            limpar_linha(linha);
 
             if (tamanho_string(linha) > 0) {
                 colecao->restaurantes[colecao->tamanho] = parse_restaurante(linha);
@@ -264,6 +276,7 @@ Restaurante *buscar_por_id(Colecao_Restaurantes *colecao, int id) {
         if (colecao->restaurantes[i]->id == id) {
             resp = colecao->restaurantes[i];
         }
+
         i++;
     }
 
@@ -280,7 +293,7 @@ void selecao_por_nome(Restaurante **array, int n, long *comparacoes) {
         while (j < n) {
             (*comparacoes)++;
 
-            if (strcasecmp(array[j]->nome, array[menor]->nome) < 0) {
+            if (strcmp(array[j]->nome, array[menor]->nome) < 0) {
                 menor = j;
             }
 
@@ -304,7 +317,7 @@ int pesquisa_binaria(Restaurante **array, int n, char *nome, long *comparacoes) 
 
     while (esq <= dir && resp == 0) {
         int meio = (esq + dir) / 2;
-        int cmp = strcasecmp(nome, array[meio]->nome);
+        int cmp = strcmp(nome, array[meio]->nome);
 
         (*comparacoes)++;
 
@@ -350,14 +363,13 @@ int main() {
         scanf("%d", &id);
     }
 
-    getchar();
-
     clock_t inicio = clock();
 
     selecao_por_nome(selecionados, n, &comparacoes);
 
-    while (fgets(nome, 300, stdin) != NULL) {
-        remover_enter(nome);
+    while (scanf(" %[^\r\n]", nome) == 1) {
+        limpar_linha(nome);
+        aparar(nome);
 
         if (strcmp(nome, "FIM") != 0) {
             if (pesquisa_binaria(selecionados, n, nome, &comparacoes) == 1) {
