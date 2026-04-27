@@ -337,7 +337,7 @@ class Lista {
 
     public void mostrar() {
         for (int i = 0; i < n; i++) {
-            System.out.println("[" + i + "] " + array[i].formatar());
+            System.out.println(array[i].formatar());
         }
     }
 }
