@@ -309,7 +309,7 @@ class FilaCircular {
     public void inserir(Restaurante restaurante) {
         if (cheia()) {
             Restaurante removido = remover();
-            System.out.println("(R) " + removido.getNome());
+            System.out.println("(R)" + removido.getNome());
         }
 
         this.array[this.ultimo] = restaurante;
@@ -378,7 +378,7 @@ public class FilaCircu {
                 }
             } else if (comando.compareTo("R") == 0) {
                 Restaurante r = fila.remover();
-                System.out.println("(R) " + r.getNome());
+                System.out.println("(R)" + r.getNome());
             }
         }
 
