@@ -38,7 +38,9 @@ typedef struct Colecao_Restaurantes {
 
 int tamanho_string(char *s) {
     int i = 0;
-    while (s[i] != '\0') i++;
+    while (s[i] != '\0') {
+        i++;
+    }
     return i;
 }
 
@@ -92,7 +94,9 @@ void separar_horario(char *s, Hora *abertura, Hora *fechamento) {
     }
     parte_abertura[j] = '\0';
 
-    if (s[i] == '-') i++;
+    if (s[i] == '-') {
+        i++;
+    }
 
     j = 0;
     while (s[i] != '\0') {
@@ -111,7 +115,9 @@ int converter_faixa_preco(char *s) {
     int i = 0;
 
     while (s[i] != '\0') {
-        if (s[i] == '$') resp++;
+        if (s[i] == '$') {
+            resp++;
+        }
         i++;
     }
 
@@ -254,7 +260,7 @@ Restaurante *buscar_por_id(Colecao_Restaurantes *colecao, int id) {
     return resp;
 }
 
-void selecao(Restaurante **array, int n, long *comparacoes) {
+void selecao_por_nome(Restaurante **array, int n, long *comparacoes) {
     int i = 0;
 
     while (i < n - 1) {
@@ -294,14 +300,10 @@ int pesquisa_binaria(Restaurante **array, int n, char *nome, long *comparacoes) 
 
         if (cmp == 0) {
             resp = 1;
+        } else if (cmp > 0) {
+            esq = meio + 1;
         } else {
-            (*comparacoes)++;
-
-            if (cmp > 0) {
-                esq = meio + 1;
-            } else {
-                dir = meio - 1;
-            }
+            dir = meio - 1;
         }
     }
 
@@ -342,22 +344,16 @@ int main() {
 
     clock_t inicio = clock();
 
-    selecao(selecionados, n, &comparacoes);
+    selecao_por_nome(selecionados, n, &comparacoes);
 
-    if (fgets(nome, 300, stdin) != NULL) {
+    while (fgets(nome, 300, stdin) != NULL) {
         remover_enter(nome);
 
-        while (strcmp(nome, "FIM") != 0) {
+        if (strcmp(nome, "FIM") != 0) {
             if (pesquisa_binaria(selecionados, n, nome, &comparacoes) == 1) {
                 printf("SIM\n");
             } else {
                 printf("NAO\n");
-            }
-
-            if (fgets(nome, 300, stdin) != NULL) {
-                remover_enter(nome);
-            } else {
-                strcpy(nome, "FIM");
             }
         }
     }
