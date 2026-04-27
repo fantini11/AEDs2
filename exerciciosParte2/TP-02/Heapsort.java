@@ -2,178 +2,427 @@ import java.util.*;
 import java.io.*;
 
 class Data {
-    int ano, mes, dia;
+    private int ano;
+    private int mes;
+    private int dia;
 
-    public Data(int a, int m, int d){
-        ano=a; mes=m; dia=d;
+    public Data(int ano, int mes, int dia) {
+        this.ano = ano;
+        this.mes = mes;
+        this.dia = dia;
     }
 
-    public static Data parseData(String s){
+    public int getAno() {
+        return this.ano;
+    }
+
+    public int getMes() {
+        return this.mes;
+    }
+
+    public int getDia() {
+        return this.dia;
+    }
+
+    public static Data parseData(String s) {
         Scanner sc = new Scanner(s);
         sc.useDelimiter("-");
-        int a = sc.nextInt();
-        int m = sc.nextInt();
-        int d = sc.nextInt();
+
+        int ano = sc.nextInt();
+        int mes = sc.nextInt();
+        int dia = sc.nextInt();
+
         sc.close();
-        return new Data(a,m,d);
+
+        return new Data(ano, mes, dia);
     }
 
-    public int comparar(Data o){
-        if(this.ano != o.ano) return this.ano - o.ano;
-        if(this.mes != o.mes) return this.mes - o.mes;
-        return this.dia - o.dia;
+    public int compareTo(Data outra) {
+        int resp = this.ano - outra.ano;
+
+        if (resp == 0) {
+            resp = this.mes - outra.mes;
+        }
+
+        if (resp == 0) {
+            resp = this.dia - outra.dia;
+        }
+
+        return resp;
     }
 
-    public String formatar(){
-        return String.format("%02d/%02d/%04d",dia,mes,ano);
+    public String formatar() {
+        return String.format("%02d/%02d/%04d", this.dia, this.mes, this.ano);
     }
 }
 
-class Restaurante{
-    int id;
-    String nome;
-    String cidade;
-    int capacidade;
-    double avaliacao;
-    Data data;
+class Hora {
+    private int hora;
+    private int minuto;
 
-    public Restaurante(int id,String nome,String cidade,int cap,double av,Data d){
-        this.id=id; this.nome=nome; this.cidade=cidade;
-        this.capacidade=cap; this.avaliacao=av; this.data=d;
+    public Hora(int hora, int minuto) {
+        this.hora = hora;
+        this.minuto = minuto;
     }
 
-    public static Restaurante parse(String s){
+    public int getHora() {
+        return this.hora;
+    }
+
+    public int getMinuto() {
+        return this.minuto;
+    }
+
+    public static Hora parseHora(String s) {
+        Scanner sc = new Scanner(s);
+        sc.useDelimiter(":");
+
+        int hora = sc.nextInt();
+        int minuto = sc.nextInt();
+
+        sc.close();
+
+        return new Hora(hora, minuto);
+    }
+
+    public String formatar() {
+        return String.format("%02d:%02d", this.hora, this.minuto);
+    }
+}
+
+class Restaurante {
+    private int id;
+    private String nome;
+    private String cidade;
+    private int capacidade;
+    private double avaliacao;
+    private String[] cozinhas;
+    private int quantidadeCozinhas;
+    private int preco;
+    private Hora horaAbertura;
+    private Hora horaFechamento;
+    private Data dataAbertura;
+    private boolean aberto;
+
+    public Restaurante(int id, String nome, String cidade, int capacidade, double avaliacao,
+                       String[] cozinhas, int quantidadeCozinhas, int preco,
+                       Hora horaAbertura, Hora horaFechamento, Data dataAbertura, boolean aberto) {
+        this.id = id;
+        this.nome = nome;
+        this.cidade = cidade;
+        this.capacidade = capacidade;
+        this.avaliacao = avaliacao;
+        this.cozinhas = cozinhas;
+        this.quantidadeCozinhas = quantidadeCozinhas;
+        this.preco = preco;
+        this.horaAbertura = horaAbertura;
+        this.horaFechamento = horaFechamento;
+        this.dataAbertura = dataAbertura;
+        this.aberto = aberto;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public String getNome() {
+        return this.nome;
+    }
+
+    public Data getDataAbertura() {
+        return this.dataAbertura;
+    }
+
+    public static Restaurante parseRestaurante(String s) {
         Scanner sc = new Scanner(s);
         sc.useDelimiter(",");
+
         int id = sc.nextInt();
         String nome = sc.next();
         String cidade = sc.next();
-        int cap = sc.nextInt();
-        double av = sc.nextDouble();
-        sc.next(); // pula cozinhas
-        sc.next(); // preco
-        sc.next(); // horario
+        int capacidade = sc.nextInt();
+        double avaliacao = sc.nextDouble();
+
+        String tiposCozinha = sc.next();
+        String[] cozinhas = new String[20];
+        int quantidadeCozinhas = separarCozinhas(tiposCozinha, cozinhas);
+
+        String faixaPreco = sc.next();
+        int preco = converterPreco(faixaPreco);
+
+        String horario = sc.next();
+        Hora horaAbertura = parseHoraAbertura(horario);
+        Hora horaFechamento = parseHoraFechamento(horario);
+
         String data = sc.next();
+        Data dataAbertura = Data.parseData(data);
+
+        String valorAberto = sc.next();
+        boolean aberto = false;
+
+        if (valorAberto.compareTo("true") == 0) {
+            aberto = true;
+        }
+
         sc.close();
 
-        return new Restaurante(id,nome,cidade,cap,av,Data.parseData(data));
+        return new Restaurante(id, nome, cidade, capacidade, avaliacao, cozinhas,
+                               quantidadeCozinhas, preco, horaAbertura, horaFechamento,
+                               dataAbertura, aberto);
     }
 
-    public String formatar(){
-        return "["+id+" ## "+nome+" ## "+cidade+" ## "+data.formatar()+"]";
+    public static int separarCozinhas(String s, String[] cozinhas) {
+        int qtd = 0;
+        String atual = "";
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ';') {
+                cozinhas[qtd] = atual;
+                qtd++;
+                atual = "";
+            } else {
+                atual = atual + s.charAt(i);
+            }
+        }
+
+        cozinhas[qtd] = atual;
+        qtd++;
+
+        return qtd;
+    }
+
+    public static int converterPreco(String s) {
+        int preco = 0;
+
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '$') {
+                preco++;
+            }
+        }
+
+        return preco;
+    }
+
+    public static String formatarPreco(int preco) {
+        String resp = "";
+
+        for (int i = 0; i < preco; i++) {
+            resp = resp + "$";
+        }
+
+        return resp;
+    }
+
+    public static Hora parseHoraAbertura(String s) {
+        Scanner sc = new Scanner(s);
+        sc.useDelimiter("-");
+
+        String abertura = sc.next();
+
+        sc.close();
+
+        return Hora.parseHora(abertura);
+    }
+
+    public static Hora parseHoraFechamento(String s) {
+        Scanner sc = new Scanner(s);
+        sc.useDelimiter("-");
+
+        sc.next();
+        String fechamento = sc.next();
+
+        sc.close();
+
+        return Hora.parseHora(fechamento);
+    }
+
+    public String formatarCozinhas() {
+        String resp = "[";
+
+        for (int i = 0; i < this.quantidadeCozinhas; i++) {
+            resp = resp + this.cozinhas[i];
+
+            if (i < this.quantidadeCozinhas - 1) {
+                resp = resp + ",";
+            }
+        }
+
+        resp = resp + "]";
+
+        return resp;
+    }
+
+    public String formatar() {
+        return "[" + this.id + " ## " +
+               this.nome + " ## " +
+               this.cidade + " ## " +
+               this.capacidade + " ## " +
+               this.avaliacao + " ## " +
+               this.formatarCozinhas() + " ## " +
+               Restaurante.formatarPreco(this.preco) + " ## " +
+               this.horaAbertura.formatar() + "-" + this.horaFechamento.formatar() + " ## " +
+               this.dataAbertura.formatar() + " ## " +
+               this.aberto + "]";
     }
 }
 
-class Colecao{
-    Restaurante[] arr;
-    int n;
+class ColecaoRestaurantes {
+    private int tamanho;
+    private Restaurante[] restaurantes;
 
-    public Colecao(){
-        arr = new Restaurante[2000];
-        n=0;
+    public ColecaoRestaurantes() {
+        this.tamanho = 0;
+        this.restaurantes = new Restaurante[2000];
     }
 
-    public void ler() throws Exception{
-        File f1 = new File("/tmp/restaurantes.csv");
-        File f2 = new File("/tmp/RESTAURANTES.CSV");
-        Scanner sc = new Scanner(f1.exists()?f1:f2);
+    public void lerCsv(String path) throws Exception {
+        File arquivo = new File(path);
+        Scanner sc = new Scanner(arquivo);
 
-        if(sc.hasNextLine()) sc.nextLine();
-
-        while(sc.hasNextLine()){
-            arr[n++] = Restaurante.parse(sc.nextLine());
+        if (sc.hasNextLine()) {
+            sc.nextLine();
         }
+
+        while (sc.hasNextLine()) {
+            String linha = sc.nextLine();
+
+            if (linha.length() > 0) {
+                this.restaurantes[this.tamanho] = Restaurante.parseRestaurante(linha);
+                this.tamanho++;
+            }
+        }
+
         sc.close();
     }
 
-    public Restaurante buscar(int id){
-        Restaurante r=null;
-        for(int i=0;i<n;i++){
-            if(arr[i].id==id) r=arr[i];
+    public static ColecaoRestaurantes lerCsv() throws Exception {
+        ColecaoRestaurantes colecao = new ColecaoRestaurantes();
+
+        File arquivo1 = new File("/tmp/restaurantes.csv");
+        File arquivo2 = new File("/tmp/RESTAURANTES.CSV");
+
+        if (arquivo1.exists()) {
+            colecao.lerCsv("/tmp/restaurantes.csv");
+        } else {
+            colecao.lerCsv("/tmp/RESTAURANTES.CSV");
         }
-        return r;
+
+        return colecao;
+    }
+
+    public Restaurante buscarPorId(int id) {
+        Restaurante resp = null;
+
+        for (int i = 0; i < this.tamanho; i++) {
+            if (this.restaurantes[i].getId() == id) {
+                resp = this.restaurantes[i];
+            }
+        }
+
+        return resp;
     }
 }
 
-public class Heapsort{
-    public static final String MATRICULA="885173";
+public class Heapsort {
+    public static final String MATRICULA = "885173";
 
-    public static int comparar(Restaurante a, Restaurante b, long[] comp){
-        comp[0]++;
-        int r = a.data.comparar(b.data);
+    public static int comparar(Restaurante a, Restaurante b, long[] comparacoes) {
+        int resp;
 
-        if(r==0){
-            comp[0]++;
-            r = a.nome.compareTo(b.nome);
+        comparacoes[0]++;
+        resp = a.getDataAbertura().compareTo(b.getDataAbertura());
+
+        if (resp == 0) {
+            comparacoes[0]++;
+            resp = a.getNome().compareTo(b.getNome());
         }
-        return r;
+
+        return resp;
     }
 
-    public static void heapify(Restaurante[] arr,int n,int i,long[] comp,long[] mov){
-        int maior=i;
-        int esq=2*i+1;
-        int dir=2*i+2;
-
-        if(esq<n && comparar(arr[esq],arr[maior],comp)>0) maior=esq;
-        if(dir<n && comparar(arr[dir],arr[maior],comp)>0) maior=dir;
-
-        if(maior!=i){
-            Restaurante tmp=arr[i];
-            arr[i]=arr[maior];
-            arr[maior]=tmp;
-            mov[0]+=3;
-
-            heapify(arr,n,maior,comp,mov);
-        }
+    public static void trocar(Restaurante[] array, int i, int j, long[] movimentacoes) {
+        Restaurante tmp = array[i];
+        array[i] = array[j];
+        array[j] = tmp;
+        movimentacoes[0] = movimentacoes[0] + 3;
     }
 
-    public static void heapsort(Restaurante[] arr,int n,long[] comp,long[] mov){
-        for(int i=n/2-1;i>=0;i--) heapify(arr,n,i,comp,mov);
+    public static void reconstruir(Restaurante[] array, int tam, int i, long[] comparacoes, long[] movimentacoes) {
+        int maior = i;
+        int esq = 2 * i + 1;
+        int dir = 2 * i + 2;
 
-        for(int i=n-1;i>0;i--){
-            Restaurante tmp=arr[0];
-            arr[0]=arr[i];
-            arr[i]=tmp;
-            mov[0]+=3;
+        if (esq < tam && comparar(array[esq], array[maior], comparacoes) > 0) {
+            maior = esq;
+        }
 
-            heapify(arr,i,0,comp,mov);
+        if (dir < tam && comparar(array[dir], array[maior], comparacoes) > 0) {
+            maior = dir;
+        }
+
+        if (maior != i) {
+            trocar(array, i, maior, movimentacoes);
+            reconstruir(array, tam, maior, comparacoes, movimentacoes);
         }
     }
 
-    public static void log(long comp,long mov,double tempo) throws Exception{
-        FileWriter fw = new FileWriter(MATRICULA+"_heapsort.txt");
-        fw.write(MATRICULA+"\t"+comp+"\t"+mov+"\t"+tempo);
+    public static void heapsort(Restaurante[] array, int n, long[] comparacoes, long[] movimentacoes) {
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            reconstruir(array, n, i, comparacoes, movimentacoes);
+        }
+
+        for (int i = n - 1; i > 0; i--) {
+            trocar(array, 0, i, movimentacoes);
+            reconstruir(array, i, 0, comparacoes, movimentacoes);
+        }
+    }
+
+    public static void escreverLog(long comparacoes, long movimentacoes, double tempo) throws Exception {
+        FileWriter fw = new FileWriter(MATRICULA + "_heapsort.txt");
+
+        fw.write(MATRICULA + "\t" + comparacoes + "\t" + movimentacoes + "\t" + tempo);
+
         fw.close();
     }
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
-        Colecao c = new Colecao();
-        c.ler();
+        ColecaoRestaurantes colecao = ColecaoRestaurantes.lerCsv();
 
-        Restaurante[] base = new Restaurante[1000];
-        int n=0;
+        Restaurante[] selecionados = new Restaurante[1000];
+        int n = 0;
 
-        int id=sc.nextInt();
-        while(id!=-1){
-            Restaurante r=c.buscar(id);
-            if(r!=null) base[n++]=r;
-            id=sc.nextInt();
+        int id = sc.nextInt();
+
+        while (id != -1) {
+            Restaurante r = colecao.buscarPorId(id);
+
+            if (r != null) {
+                selecionados[n] = r;
+                n++;
+            }
+
+            id = sc.nextInt();
         }
 
-        long[] comp={0};
-        long[] mov={0};
+        long[] comparacoes = new long[1];
+        long[] movimentacoes = new long[1];
 
-        long ini=System.nanoTime();
-        heapsort(base,n,comp,mov);
-        long fim=System.nanoTime();
+        long inicio = System.nanoTime();
 
-        for(int i=0;i<n;i++){
-            System.out.println(base[i].formatar());
+        if (n > 0) {
+            heapsort(selecionados, n, comparacoes, movimentacoes);
         }
 
-        double tempo=(fim-ini)/1e9;
-        log(comp[0],mov[0],tempo);
+        long fim = System.nanoTime();
+
+        double tempo = (fim - inicio) / 1000000000.0;
+
+        for (int i = 0; i < n; i++) {
+            System.out.println(selecionados[i].formatar());
+        }
+
+        escreverLog(comparacoes[0], movimentacoes[0], tempo);
 
         sc.close();
     }
