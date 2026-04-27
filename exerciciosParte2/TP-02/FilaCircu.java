@@ -285,17 +285,25 @@ class FilaCircular {
     private Restaurante[] array;
     private int primeiro;
     private int ultimo;
-    private int quantidade;
 
     public FilaCircular() {
-        this.array = new Restaurante[5];
+        this.array = new Restaurante[6];
         this.primeiro = 0;
         this.ultimo = 0;
-        this.quantidade = 0;
+    }
+
+    public int tamanho() {
+        int resp = this.ultimo - this.primeiro;
+
+        if (resp < 0) {
+            resp = resp + this.array.length;
+        }
+
+        return resp;
     }
 
     public boolean cheia() {
-        return this.quantidade == 5;
+        return ((this.ultimo + 1) % this.array.length) == this.primeiro;
     }
 
     public void inserir(Restaurante restaurante) {
@@ -305,33 +313,34 @@ class FilaCircular {
         }
 
         this.array[this.ultimo] = restaurante;
-        this.ultimo = (this.ultimo + 1) % 5;
-        this.quantidade++;
+        this.ultimo = (this.ultimo + 1) % this.array.length;
 
-        System.out.println("(I) " + mediaAnoArredondada());
+        System.out.println("(I)" + mediaAnoArredondada());
     }
 
     public Restaurante remover() {
         Restaurante resp = this.array[this.primeiro];
-        this.primeiro = (this.primeiro + 1) % 5;
-        this.quantidade--;
+        this.primeiro = (this.primeiro + 1) % this.array.length;
         return resp;
     }
 
     public int mediaAnoArredondada() {
         int soma = 0;
+        int tam = tamanho();
 
-        for (int i = 0; i < this.quantidade; i++) {
-            int pos = (this.primeiro + i) % 5;
+        for (int i = 0; i < tam; i++) {
+            int pos = (this.primeiro + i) % this.array.length;
             soma = soma + this.array[pos].getAnoAbertura();
         }
 
-        return (int) Math.round((double) soma / this.quantidade);
+        return (int) Math.round((double) soma / tam);
     }
 
     public void mostrar() {
-        for (int i = 0; i < this.quantidade; i++) {
-            int pos = (this.primeiro + i) % 5;
+        int tam = tamanho();
+
+        for (int i = 0; i < tam; i++) {
+            int pos = (this.primeiro + i) % this.array.length;
             System.out.println("[" + i + "] " + this.array[pos].formatar());
         }
     }
