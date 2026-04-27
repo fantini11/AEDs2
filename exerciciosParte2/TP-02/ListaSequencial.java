@@ -380,14 +380,14 @@ public class ListaSequencial {
                 lista.inserirFim(r);
             } else if (comando.compareTo("RI") == 0) {
                 Restaurante r = lista.removerInicio();
-                System.out.println("(R) " + r.getNome());
+                System.out.println("(R)" + r.getNome());
             } else if (comando.compareTo("R*") == 0) {
                 int posicao = sc.nextInt();
                 Restaurante r = lista.remover(posicao);
-                System.out.println("(R) " + r.getNome());
+                System.out.println("(R)" + r.getNome());
             } else if (comando.compareTo("RF") == 0) {
                 Restaurante r = lista.removerFim();
-                System.out.println("(R) " + r.getNome());
+                System.out.println("(R)" + r.getNome());
             }
         }
 
