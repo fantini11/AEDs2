@@ -271,7 +271,7 @@ class ColecaoRestaurantes {
     }
 }
 
-public class OrdenacaoParcial {
+public class ParcialSelecao {
     public static final String MATRICULA = "885173";
 
     public static void selecaoParcial(Restaurante[] array, int n, long[] comparacoes, long[] movimentacoes) {
