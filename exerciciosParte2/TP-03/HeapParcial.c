@@ -379,6 +379,12 @@ void reconstruir(Restaurante **array, int tam, int i, long *comparacoes, long *m
         reconstruir(array, tam, maior, comparacoes, movimentacoes);
     }
 }
+
+/*
+ * Heapsort parcial com k = 10.
+ * Remove os maiores ate restarem somente os 10 menores no inicio
+ * e depois ordena esses 10 primeiros.
+ */
 void heapsort_parcial(Restaurante **array, int n, long *comparacoes, long *movimentacoes) {
     int k = 10;
 
@@ -447,13 +453,7 @@ int main() {
 
     double tempo = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
 
-    int limite = 10;
-
-    if (n < limite) {
-        limite = n;
-    }
-
-    for (int i = 0; i < limite; i++) {
+    for (int i = 0; i < n; i++) {
         formatar_restaurante(selecionados[i], buffer);
         printf("%s\n", buffer);
     }
