@@ -289,7 +289,7 @@ class ColecaoRestaurantes {
     }
 }
 
-public class Principal {
+public class QuickParcial {
     public static final String MATRICULA = "885173";
 
     public static int comparar(Restaurante a, Restaurante b, long[] comparacoes) {
