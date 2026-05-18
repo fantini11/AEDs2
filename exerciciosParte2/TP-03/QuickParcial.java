@@ -289,7 +289,7 @@ class ColecaoRestaurantes {
     }
 }
 
-public class QuickParcial {
+public class Principal {
     public static final String MATRICULA = "885173";
 
     public static int comparar(Restaurante a, Restaurante b, long[] comparacoes) {
@@ -392,7 +392,7 @@ public class QuickParcial {
 
         double tempo = (fim - inicio) / 1000000000.0;
 
-        for (int i = 0; i < k; i++) {
+        for (int i = 0; i < n; i++) {
             System.out.println(selecionados[i].formatar());
         }
 
