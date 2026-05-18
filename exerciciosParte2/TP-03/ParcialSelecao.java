@@ -271,7 +271,7 @@ class ColecaoRestaurantes {
     }
 }
 
-public class ParcialSelecao {
+public class Principal {
     public static final String MATRICULA = "885173";
 
     public static void selecaoParcial(Restaurante[] array, int n, long[] comparacoes, long[] movimentacoes) {
@@ -335,13 +335,7 @@ public class ParcialSelecao {
         long fim = System.nanoTime();
 
         double tempo = (fim - inicio) / 1000000000.0;
-        int limite = 10;
-
-        if (n < limite) {
-            limite = n;
-        }
-
-        for (int i = 0; i < limite; i++) {
+        for (int i = 0; i < n; i++) {
             System.out.println(selecionados[i].formatar());
         }
 
