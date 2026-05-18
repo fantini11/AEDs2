@@ -431,13 +431,7 @@ int main() {
 
     double tempo = ((double)(fim - inicio)) / CLOCKS_PER_SEC;
 
-    int limite = 10;
-
-    if (n < limite) {
-        limite = n;
-    }
-
-    for (int i = 0; i < limite; i++) {
+    for (int i = 0; i < n; i++) {
         formatar_restaurante(selecionados[i], buffer);
         printf("%s\n", buffer);
     }
